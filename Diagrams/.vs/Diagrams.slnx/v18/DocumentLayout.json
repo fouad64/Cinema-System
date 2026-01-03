@@ -1,0 +1,56 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "E:\\Telecom_ITI\\11-SWE-UML\\project\\github\\Cinema-System\\Diagrams\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|E:\\Telecom_ITI\\11-SWE-UML\\project\\github\\Cinema-System\\Diagrams\\Activity Diagram .png||{58961B49-13E0-48C0-9258-13CBC4D40279}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Activity Diagram .png||{58961B49-13E0-48C0-9258-13CBC4D40279}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|E:\\Telecom_ITI\\11-SWE-UML\\project\\github\\Cinema-System\\Diagrams\\Class Diagram.png||{58961B49-13E0-48C0-9258-13CBC4D40279}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Class Diagram.png||{58961B49-13E0-48C0-9258-13CBC4D40279}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Class Diagram.png",
+              "DocumentMoniker": "E:\\Telecom_ITI\\11-SWE-UML\\project\\github\\Cinema-System\\Diagrams\\Class Diagram.png",
+              "RelativeDocumentMoniker": "Class Diagram.png",
+              "ToolTip": "E:\\Telecom_ITI\\11-SWE-UML\\project\\github\\Cinema-System\\Diagrams\\Class Diagram.png",
+              "RelativeToolTip": "Class Diagram.png",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001533|",
+              "WhenOpened": "2026-01-03T20:21:06.822Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Activity Diagram .png",
+              "DocumentMoniker": "E:\\Telecom_ITI\\11-SWE-UML\\project\\github\\Cinema-System\\Diagrams\\Activity Diagram .png",
+              "RelativeDocumentMoniker": "Activity Diagram .png",
+              "ToolTip": "E:\\Telecom_ITI\\11-SWE-UML\\project\\github\\Cinema-System\\Diagrams\\Activity Diagram .png",
+              "RelativeToolTip": "Activity Diagram .png",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001533|",
+              "WhenOpened": "2026-01-03T20:20:44.687Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
