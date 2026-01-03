@@ -16,7 +16,7 @@ public:
     member();
 
     bool login();
-    void signup();
+    virtual void signup()= 0;
     void recoverPassword();
 };
 
