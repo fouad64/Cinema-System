@@ -10,7 +10,7 @@ void customer::signup() {
 	cout << "Enter email: ";
 	cin.ignore();
 	cin >> personalAcc::email;
-	
+	// implement function to validate if the email is already exist
 
 	while true {
 		cout << "Enter password: "; cin >> pass1;
@@ -24,6 +24,7 @@ void customer::signup() {
 		}
 		else {
 			cout << "Password doesnt match" << endl;
+
 		}
 	}
 
