@@ -17,6 +17,10 @@ public:
 
     bool login();
     virtual void signup()= 0;
+    
+    bool validateEmail(const std::string& email);
+    bool validatePassword(const std::string& password);
+
     void recoverPassword();
 };
 
