@@ -9,8 +9,11 @@ void admin::signup() {
 
 	cout << "Enter email: ";
 	cin.ignore();
-	cin >> personalAcc::email;
-	// implement function to validate if the email is already exist
+	cin >> personalAcc.email;
+	// if (emailExists(personalAcc.email)) {
+//     cout << "Email already registered!" << endl;
+//     return;
+// }
 
 
 	while true {
@@ -19,7 +22,7 @@ void admin::signup() {
 
 		if (pass1 == pass2) {
 			cout << "account created Successfuly";
-			personalAcc::password = pass2;
+			personalAcc.password = pass2;
 
 			return;
 		}
