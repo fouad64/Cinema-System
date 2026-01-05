@@ -2,15 +2,16 @@
 #include <iostream>
 #include <string>
 
+/*
 customer::customer(string ID,string phoneNum) : customerId(ID) , phone(phoneNum) {
 	
 	reservation = nullptr;
 }
-
+*/
 void customer::signup() {
 	string pass1; string pass2;
 	
-	personalAcc::level = CUSTOMER;
+	personalAcc.level = privilege::CUSTOMER;
 
 	cout << "Enter email: ";
 	cin.ignore();

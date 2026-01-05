@@ -4,7 +4,7 @@
 #include <iostream>
 #include <frequent.hpp>
 
-using namesapce std;
+using namespace std;
 
 class member
 {

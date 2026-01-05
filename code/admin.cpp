@@ -1,11 +1,12 @@
 #include "../include/admin.hpp"
 #include <iostream>
 #include <string>
+using namespace std;
 
 void admin::signup() {
 	string pass1; string pass2;
 
-	personalAcc::level = ADMIN;
+	personalAcc.level = privilege::ADMIN;
 
 	cout << "Enter email: ";
 	cin.ignore();
@@ -16,7 +17,7 @@ void admin::signup() {
 // }
 
 
-	while true {
+	while (true) {
 		cout << "Enter password: "; cin >> pass1;
 		cout << "Re-type password: "; cin >> pass2;
 

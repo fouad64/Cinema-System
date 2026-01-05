@@ -3,7 +3,7 @@
 
 #include <string>
 #include <member.hpp>
-#include <reservation.hpp>
+//#include <reservation.hpp>
 
 class customer: public member
 {
@@ -15,7 +15,7 @@ private:
 public:
 
     customer();
-
+    void signup() override;
     void reserveSeats();
     void viewAvailableMovies();
     void cancelReservation();

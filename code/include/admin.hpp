@@ -11,7 +11,7 @@ private:
 public:
 
     admin();
-
+    void signup() override;
     void addMovie();
     void updateMovie();
     void deleteMovie();
@@ -22,4 +22,6 @@ public:
     void assignEmployeeToCinema();
     void removeEmployeeFromCinema();
     void showCompanyStatistics();
-}
+};
+
+#endif

@@ -4,6 +4,8 @@
 #include <iostream>
 #include <frequent.hpp>
 
+using namespace std;
+
 class screen
 {
 private:

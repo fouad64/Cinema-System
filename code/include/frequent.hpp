@@ -21,7 +21,7 @@ enum class genre
 enum class seatingTier
 {
     PREMIUM, REGULAR, VIP
-}
+};
 
 struct account
 {
@@ -36,7 +36,7 @@ struct movie
     genre movieGenre;
     rating movieRating;
     string cinemasAvailableAt;
-}
+};
 
 struct reservation
 {
@@ -45,6 +45,6 @@ struct reservation
     string movieTitle;
     string showTime;
     string status;
-}
+};
 
 #endif
