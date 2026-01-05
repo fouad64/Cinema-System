@@ -9,24 +9,42 @@
 using namespace std;
 
 
-
 int reg(sqlite3* db)
 {
-    sqlite3_stmt* stmt;
-    string query;
-    string name,email,password,role;
+    string name, email, password;
     cout << "Enter your email: ";
     cin >> email;
-    cout << "\nEnter your password: ";
-    cin >> password;
-    cout<< "\nName: ";
-    cin >> name;
-    role = 'customer';
-    query = "INSERT INTO users(name,email,password,role) VALUES('" + name +"', '" + email + "', '" + password + "', 'customer')";
-    if(executeSQL(db, "BEGIN TRANSACTION;"))
-    if(executeSQL(db, query))
-    if(executeSQL(db, "COMMIT;")) return 1;
 
+    cout << "Enter your password: ";
+    cin >> password;
+
+    cout << "Enter your name: ";
+    cin >> name;
+
+    const char* sql = "INSERT INTO users(name, email, password, role) VALUES(?, ?, ?, ?)";
+
+    sqlite3_stmt* stmt;
+
+    if (sqlite3_prepare_v2(db, sql, -1, &stmt, nullptr) != SQLITE_OK)
+    {
+        cout << "Prepare failed: " << sqlite3_errmsg(db) << endl;
+        return 0;
+    }
+
+    sqlite3_bind_text(stmt, 1, name.c_str(), -1, SQLITE_TRANSIENT);
+    sqlite3_bind_text(stmt, 2, email.c_str(), -1, SQLITE_TRANSIENT);
+    sqlite3_bind_text(stmt, 3, password.c_str(), -1, SQLITE_TRANSIENT);
+    sqlite3_bind_text(stmt, 4, "customer", -1, SQLITE_TRANSIENT);
+
+    if (sqlite3_step(stmt) != SQLITE_DONE)
+    {
+        cout << "Insert failed: " << sqlite3_errmsg(db) << endl;
+        sqlite3_finalize(stmt);
+        return 0;
+    }
+
+    sqlite3_finalize(stmt);
+    return 1;
 }
 
 int main()
