@@ -2,9 +2,9 @@
 #define MEMBER_HPP
 
 #include <iostream>
-#include <frequent.hpp>
+#include "frequent.hpp"
 
-using namesapce std;
+using namespace std;
 
 class member
 {

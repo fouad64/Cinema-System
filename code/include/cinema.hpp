@@ -2,10 +2,10 @@
 #define CINEMA_HPP
 
 #include <iostream>
-#include <employee.hpp>
-#include <admin.hpp>
-#include <screen.hpp>
-#include <movie.hpp>
+#include "employee.hpp"
+#include "admin.hpp"
+#include "screen.hpp"
+#include "movie.hpp"
 
 using namespace std;
 

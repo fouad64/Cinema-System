@@ -2,9 +2,9 @@
 #include <string>
 #include "sqlite3.h"
 #include "db_utils.h"
-#include "admin.h"
-#include "customer.h"
-#include "frequent.h"
+#include "./include/admin.hpp"
+#include "./include/customer.hpp"
+#include "./include/frequent.hpp"
 
 using namespace std;
 

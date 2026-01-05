@@ -2,7 +2,7 @@
 #define SCREEN_HPP
 
 #include <iostream>
-#include <frequent.hpp>
+#include "frequent.hpp"
 
 class screen
 {

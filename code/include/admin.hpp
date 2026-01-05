@@ -1,7 +1,7 @@
 #ifndef ADMIN_HPP
 #define ADMIN_HPP
 
-#include <member.hpp>
+#include "member.hpp"
 
 class admin: public member
 {
@@ -22,4 +22,5 @@ public:
     void assignEmployeeToCinema();
     void removeEmployeeFromCinema();
     void showCompanyStatistics();
-}
+};
+#endif 
