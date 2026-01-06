@@ -99,5 +99,5 @@ void member::recoverPassword() {
     }
     
     cout << "Email found! In a real system, we would send a recovery link." << endl;
-    cout << "For this demo, please contact admin to reset your password." << endl;
+
 }
