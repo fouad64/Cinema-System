@@ -2,7 +2,8 @@
 #define CUSTOMER_HPP
 
 #include "../sqlite3.h"
-
+#include <iostream>
+#include "../db_utils.h"
 class Customer {
     sqlite3* db;
     int user_id;
