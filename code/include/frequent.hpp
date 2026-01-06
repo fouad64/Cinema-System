@@ -3,6 +3,8 @@
 
 #include <string>
 
+using namespace std;
+
 enum class privilege
 {
     ADMIN, EMPLOYEE, CUSTOMER
@@ -18,15 +20,10 @@ enum class genre
     ACTION, DRAMA, COMEDY, HORROR, ROMANCE, THRILLER, ANIMATION, SCIFI
 };
 
-enum class seatingTier
-{
-    PREMIUM, REGULAR, VIP
-};
-
 struct account
 {
-    std::string email;
-    std::string password;
+    string email;
+    string password;
     privilege level;
 };
 
@@ -35,16 +32,18 @@ struct movie
     string movieName;
     genre movieGenre;
     rating movieRating;
-    string cinemasAvailableAt;
+    string description;
 };
 
 struct reservation
 {
     string reservationID;
-    string* seats;
+    string seats;           // Changed from string* to string (comma-separated like "A1,A2,B3")
     string movieTitle;
     string showTime;
     string status;
+    int numTickets;
+    double totalPrice;
 };
 
 #endif

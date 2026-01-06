@@ -1,25 +1,22 @@
-#ifndef CSUTOMER_HPP
+#ifndef CUSTOMER_HPP
 #define CUSTOMER_HPP
 
 #include <string>
-#include <member.hpp>
-//#include <reservation.hpp>
+#include "member.hpp"
 
 class customer: public member
 {
 private:
-    
     string customerId;
     string phone;
-    reservation* reservations;
-public:
 
+public:
     customer();
     void signup() override;
     void reserveSeats();
     void viewAvailableMovies();
     void cancelReservation();
-
+    void viewMyReservations();
 };
 
 #endif
