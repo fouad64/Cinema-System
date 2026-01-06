@@ -1,109 +1,138 @@
 #include <iostream>
-#include <string>
-#include "sqlite3.h"
-#include "db_utils.h"
-#include "/include/customer.hpp"
-#include "frequent.h"
+#include "include/admin.hpp"
+#include "include/customer.hpp"
+#include "include/database.hpp"
 
 using namespace std;
 
-
-
-
-bool login(sqlite3* db, string& role)
-{
-    sqlite3_stmt* stmt;
-    string query;
-    string email,password,role;
-    cout << "Enter your email: ";
-    cin >> email;
-    cout << "\nEnter your password: ";
-    cin >> password;
-
-    query = "SELECT email, password FROM users WHERE password='" + password +"' AND email='" + email + "';";
-    //SELECT email, password FROM users WHERE password='v_password' AND email='v_email';
-    if(executeSQL(db, "BEGIN TRANSACTION;"))
-    if(executeSQL(db, query))
-    if(executeSQL(db, "COMMIT;"))
-    {
-        query = "SELECT role FROM users WHERE password='" + password +"' AND email='" + email + "';";
-        if(sqlite3_prepare_v2(db, query, -1, &stmt, nullptr) == SQLITE_OK)
-        {
-            while(sqlite3_step(stmt) == SQLITE_ROW)
-            {
-                role = sqlite3_column_text(stmt, 0);
-            }
-        }
+void adminMenu(admin& adm) {
+    int choice;
+    
+    while (true) {
+        cout << "\n=== Admin Menu ===" << endl;
+        cout << "1. Add Movie" << endl;
+        cout << "2. View All Movies" << endl;
+        cout << "3. Update Movie" << endl;
+        cout << "4. Delete Movie" << endl;
+        cout << "5. Add Showtime" << endl;
+        cout << "6. View Statistics" << endl;
+        cout << "7. Logout" << endl;
+        cout << "Choice: ";
+        cin >> choice;
         
+        switch(choice) {
+            case 1:
+                adm.addMovie();
+                break;
+            case 2:
+                adm.readMovie();
+                break;
+            case 3:
+                adm.updateMovie();
+                break;
+            case 4:
+                adm.deleteMovie();
+                break;
+            case 5:
+                adm.addShowtime();
+                break;
+            case 6:
+                adm.showStatistics();
+                break;
+            case 7:
+                return;
+            default:
+                cout << "Invalid choice!" << endl;
+        }
     }
 }
 
-bool reg(sqlite3* db)
-{
-    string query;
-    string name,email,password,role;
-    cout << "Enter your email: ";
-    cin >> email;
-    cout << "\nEnter your password: ";
-    cin >> password;
-    cout<< "\nName: ";
-    cin >> name;
-    role = 'customer';
-    query = "INSERT INTO users(name,email,password,role) VALUES('" + name +"', '" + email + "', '" + password + "', 'customer')";
-    if(executeSQL(db, "BEGIN TRANSACTION;"))
-    if(executeSQL(db, query))
-    if(executeSQL(db, "COMMIT;")) return true;
-
+void customerMenu(customer& cust) {
+    int choice;
+    
+    while (true) {
+        cout << "\n=== Customer Menu ===" << endl;
+        cout << "1. View Available Movies" << endl;
+        cout << "2. View Showtimes" << endl;
+        cout << "3. Reserve Seats" << endl;
+        cout << "4. View My Reservations" << endl;
+        cout << "5. Cancel Reservation" << endl;
+        cout << "6. Logout" << endl;
+        cout << "Choice: ";
+        cin >> choice;
+        
+        Database db;
+        
+        switch(choice) {
+            case 1:
+                cust.viewAvailableMovies();
+                break;
+            case 2:
+                db.showAvailableShowtimes();
+                break;
+            case 3:
+                cust.reserveSeats();
+                break;
+            case 4:
+                cust.viewMyReservations();
+                break;
+            case 5:
+                cust.cancelReservation();
+                break;
+            case 6:
+                return;
+            default:
+                cout << "Invalid choice!" << endl;
+        }
+    }
 }
 
-int main()
-{
-    sqlite3* db;
-    string role;
-
-    if (sqlite3_open("cinema.db", &db)) {
-        cerr << "Can't open database: " << sqlite3_errmsg(db) << endl;
-        return 1;
-    }
-
-
-
-    if(reg(db)) cout << "\nregistered successfully!!";
-
-    if(login(db, role))
-    {
-        cout << "You're a " << role << endl;
-    }
-
-
-    switch(role)
-    {   
-        //we still need to retrieve customer id so we can create an object using it 
-        case 'customer':
-        customer* C1 = new customer(db,user_id);
-            int choice;
-            cout << "Enter your choice: \n1) View Movies\n2) Reserve a movie" << endl;
-            cin >> choice;
-            switch(choice)
-            {
-                case 1:
-                    C1->viewMovies();
-                    break;
-                case 2:
-                    C1->reserveMovie();
-                    break;
-                default:
-                cout << "Enter a valid choice!!" << endl;
+int main() {
+    int choice;
+    
+    cout << "=== Cinema Management System ===" << endl;
+    
+    while (true) {
+        cout << "\n1. Admin Signup" << endl;
+        cout << "2. Admin Login" << endl;
+        cout << "3. Customer Signup" << endl;
+        cout << "4. Customer Login" << endl;
+        cout << "5. Exit" << endl;
+        cout << "Choice: ";
+        cin >> choice;
+        
+        switch(choice) {
+            case 1: {
+                admin adm;
+                adm.signup();
                 break;
             }
-            break;
-        case 'admin':
-        //admin options and 
+            case 2: {
+                admin adm;
+                if (adm.login()) {
+                    adminMenu(adm);
+                }
+                break;
+            }
+            case 3: {
+                customer cust;
+                cust.signup();
+                break;
+            }
+            case 4: {
+                customer cust;
+                if (cust.login()) {
+                    customerMenu(cust);
+                }
+                break;
+            }
+            case 5:
+                cout << "Thank you for using Cinema Management System!" << endl;
+                return 0;
+            default:
+                cout << "Invalid choice!" << endl;
+        }
     }
     
-    
-
-
-
     return 0;
 }

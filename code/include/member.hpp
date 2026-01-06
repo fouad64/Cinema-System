@@ -2,24 +2,34 @@
 #define MEMBER_HPP
 
 #include <iostream>
-#include "sqlite3.h"
-#include "db_utils.h"
+#include "frequent.hpp"
 
 using namespace std;
+
+class Database; 
 
 class member
 {
 protected:
-    int u_id;
-    string role;    
+    string name;
+    account personalAcc;
+    int userId; 
+    static Database* db;
 
 public:
     member();
 
-    bool login(sqlite3* db, string& role);
-    bool signup(sqlite3* db);
+    bool login();
+    virtual void signup() = 0;
+    
+    bool validateEmail(const std::string& email);
+    bool validatePassword(const std::string& password);
 
     void recoverPassword();
+    
+ 
+    int getUserId() const { return userId; }
+    string getEmail() const { return personalAcc.email; }
 };
 
 #endif

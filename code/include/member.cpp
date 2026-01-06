@@ -1,55 +1,103 @@
-#include "./member.hpp"
+#include "member.hpp"
+#include "database.hpp"
+#include <iostream>
+#include <string>
 
+Database* member::db = nullptr;
 
-bool member::login(sqlite3* db, string& role)
-{
-    sqlite3_stmt* stmt = nullptr;
-    string query;
-    string email, password;
-    bool success = false;
-    cout << "Enter your email: ";
-    cin >> email;
-    cout << "\nEnter your password: ";
-    cin >> password;
-
-    query = "SELECT email, password FROM users WHERE password='" + password +"' AND email='" + email + "';";
-    //SELECT email, password FROM users WHERE password='v_password' AND email='v_email';
-    if(executeSQL(db, "BEGIN TRANSACTION;"))
-    if(executeSQL(db, query))
-    if(executeSQL(db, "COMMIT;"))
-    {
-        query = "SELECT role FROM users WHERE password='" + password +"' AND email='" + email + "';";
-        if(sqlite3_prepare_v2(db, query.c_str(), -1, &stmt, nullptr) == SQLITE_OK)
-        {
-            if(sqlite3_step(stmt) == SQLITE_ROW)
-            {
-                const unsigned char* text = sqlite3_column_text(stmt, 0);
-                if(text) role = reinterpret_cast<const char*>(text);
-                success = true;
-            }
-        }
-        if(stmt) sqlite3_finalize(stmt);
+member::member() {
+    if (db == nullptr) {
+        db = new Database("cinema.db");
     }
-
-    return success;
 }
 
-bool member::signup(sqlite3* db)
-{
-    string query;
-    string name,email,password,role;
+bool member::validateEmail(const string& email) {
+    if (email.find('@') == string::npos) {
+        cout << "Invalid email format! Email must contain @" << endl;
+        return false;
+    }
+
+    size_t atPos = email.find('@');
+    if (email.find('.', atPos) == string::npos) {
+        cout << "Invalid email format! Email must have a domain (e.g., @gmail.com)" << endl;
+        return false;
+    }
+
+    if (email.length() < 5) {
+        cout << "Email too short!" << endl;
+        return false;
+    }
+
+    return true;
+}
+
+bool member::validatePassword(const string& password) {
+    if (password.length() < 8) {
+        cout << "Password must be at least 8 characters long!" << endl;
+        return false;
+    }
+
+    bool hasDigit = false;
+    for (char c : password) {
+        if (isdigit(c)) {
+            hasDigit = true;
+            break;
+        }
+    }
+
+    if (!hasDigit) {
+        cout << "Password must contain at least one number!" << endl;
+        return false;
+    }
+
+    return true;
+}
+
+bool member::login() {
+    string email, password;
+    
+    cout << "=== Login ===" << endl;
+    cout << "Enter email: ";
+    cin >> email;
+    
+    cout << "Enter password: ";
+    cin >> password;
+    
+    string role;
+    int userId;
+    
+    if (db->validateLogin(email, password, role, userId)) {
+        cout << "Login successful! Welcome back." << endl;
+        personalAcc.email = email;
+        personalAcc.password = password;
+        
+        if (role == "ADMIN") {
+            personalAcc.level = privilege::ADMIN;
+        } else if (role == "EMPLOYEE") {
+            personalAcc.level = privilege::EMPLOYEE;
+        } else {
+            personalAcc.level = privilege::CUSTOMER;
+        }
+        
+        return true;
+    } else {
+        cout << "Invalid email or password!" << endl;
+        return false;
+    }
+}
+
+void member::recoverPassword() {
+    string email;
+    
+    cout << "=== Password Recovery ===" << endl;
     cout << "Enter your email: ";
     cin >> email;
-    cout << "\nEnter your password: ";
-    cin >> password;
-    cout<< "\nName: ";
-    cin >> name;
-    role = "customer";
-    query = "INSERT INTO users(name,email,password,role) VALUES('" + name +"', '" + email + "', '" + password + "', 'customer')";
-    if(executeSQL(db, "BEGIN TRANSACTION;"))
-    if(executeSQL(db, query))
-    if(executeSQL(db, "COMMIT;")) return true;
-
-    return false;
-
+    
+    if (!db->emailExists(email)) {
+        cout << "Email not found in our system." << endl;
+        return;
+    }
+    
+    cout << "Email found! In a real system, we would send a recovery link." << endl;
+    cout << "For this demo, please contact admin to reset your password." << endl;
 }
