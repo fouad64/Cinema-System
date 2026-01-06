@@ -8,7 +8,8 @@
 
 Small and medium-sized cinema chains often struggle with managing movie schedules, ticket bookings, and hall availability when relying on manual methods such as paper records or basic spreadsheets. These traditional approaches make it difficult to avoid seat conflicts, track movie showtimes accurately, and generate reliable sales reports across multiple cinema branches.
 
-The **Cinema Management & Ticket Booking System** provides a lightweight, console-based digital solution developed using Bash scripting and Linux command-line utilities, following structured programming concepts and modular script design.
+The **Cinema Management & Ticket Booking System** is developed using C++, applying Object-Oriented Programming (OOP) principles along with efficient Algorithms and Data Structures to ensure optimal performance and maintainable code design.
+SQLite is used as a lightweight relational database to store and manage movies, users, schedules, and reservation data efficiently.
 
 This system simplifies cinema operations by automating movie scheduling, seat reservations, and ticket management, while ensuring data consistency and minimizing human errors—without requiring complex graphical interfaces or heavy infrastructure.
 
