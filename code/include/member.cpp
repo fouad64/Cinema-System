@@ -6,6 +6,7 @@
 Database* member::db = nullptr;
 
 member::member() {
+    userId = -1; // Initialize to invalid value
     if (db == nullptr) {
         db = new Database("cinema.db");
     }
@@ -64,12 +65,13 @@ bool member::login() {
     cin >> password;
     
     string role;
-    int userId;
+    int fetchedUserId;
     
-    if (db->validateLogin(email, password, role, userId)) {
+    if (db->validateLogin(email, password, role, fetchedUserId)) {
         cout << "Login successful! Welcome back." << endl;
         personalAcc.email = email;
         personalAcc.password = password;
+        userId = fetchedUserId; // FIXED: Store the userId
         
         if (role == "ADMIN") {
             personalAcc.level = privilege::ADMIN;
@@ -99,5 +101,4 @@ void member::recoverPassword() {
     }
     
     cout << "Email found! In a real system, we would send a recovery link." << endl;
-
 }

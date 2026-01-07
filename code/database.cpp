@@ -16,6 +16,16 @@ bool Database::connect() {
         cerr << "Error opening database: " << sqlite3_errmsg(db) << endl;
         return false;
     }
+    // Enable foreign key enforcement
+    if (sqlite3_exec(db, "PRAGMA foreign_keys = ON;", nullptr, nullptr, &errorMsg) != SQLITE_OK) {
+        cerr << "Failed to enable foreign keys: " << (errorMsg ? errorMsg : "unknown") << endl;
+        if (errorMsg) {
+            sqlite3_free(errorMsg);
+            errorMsg = nullptr;
+        }
+        // Not fatal; continue with connection
+    }
+
     return true;
 }
 
@@ -158,19 +168,49 @@ bool Database::updateMovie(int movieId, const string& title, const string& genre
     return success;
 }
 
+
 bool Database::deleteMovie(int movieId) {
-    string sql = "DELETE FROM movies WHERE movie_id = ?;";
+    string checkSql = "SELECT COUNT(*) FROM showtimes WHERE movie_id = ?;";
     sqlite3_stmt* stmt;
     
+    if (sqlite3_prepare_v2(db, checkSql.c_str(), -1, &stmt, nullptr) != SQLITE_OK) {
+        cerr << "Failed to prepare check statement: " << sqlite3_errmsg(db) << endl;
+        return false;
+    }
+    
+    sqlite3_bind_int(stmt, 1, movieId);
+    
+    int showtimeCount = 0;
+    if (sqlite3_step(stmt) == SQLITE_ROW) {
+        showtimeCount = sqlite3_column_int(stmt, 0);
+    }
+    sqlite3_finalize(stmt);
+    
+    if (showtimeCount > 0) {
+        cout << "Cannot delete movie: " << showtimeCount << " showtime(s) exist for this movie." << endl;
+        cout << "Please delete all showtimes first, or use CASCADE delete." << endl;
+        return false;
+    }
+    
+    string sql = "DELETE FROM movies WHERE movie_id = ?;";
+    
     if (sqlite3_prepare_v2(db, sql.c_str(), -1, &stmt, nullptr) != SQLITE_OK) {
+        cerr << "Failed to prepare delete statement: " << sqlite3_errmsg(db) << endl;
         return false;
     }
     
     sqlite3_bind_int(stmt, 1, movieId);
     
     bool success = (sqlite3_step(stmt) == SQLITE_DONE);
-    sqlite3_finalize(stmt);
     
+    if (!success) {
+        cerr << "Failed to delete movie: " << sqlite3_errmsg(db) << endl;
+    } else if (sqlite3_changes(db) == 0) {
+        cout << "No movie found with ID " << movieId << endl;
+        success = false;
+    }
+    
+    sqlite3_finalize(stmt);
     return success;
 }
 
@@ -179,17 +219,26 @@ bool Database::addShowtime(int movieId, const string& datetime, int screenNum, d
     sqlite3_stmt* stmt;
     
     if (sqlite3_prepare_v2(db, sql.c_str(), -1, &stmt, nullptr) != SQLITE_OK) {
+        cerr << "Failed to prepare addShowtime: " << sqlite3_errmsg(db) << endl;
         return false;
     }
-    
-    sqlite3_bind_int(stmt, 1, movieId);
-    sqlite3_bind_text(stmt, 2, datetime.c_str(), -1, SQLITE_TRANSIENT);
-    sqlite3_bind_int(stmt, 3, screenNum);
-    sqlite3_bind_double(stmt, 4, price);
-    
-    bool success = (sqlite3_step(stmt) == SQLITE_DONE);
+
+    if (sqlite3_bind_int(stmt, 1, movieId) != SQLITE_OK ||
+        sqlite3_bind_text(stmt, 2, datetime.c_str(), -1, SQLITE_TRANSIENT) != SQLITE_OK ||
+        sqlite3_bind_int(stmt, 3, screenNum) != SQLITE_OK ||
+        sqlite3_bind_double(stmt, 4, price) != SQLITE_OK) {
+        cerr << "Failed to bind addShowtime parameters: " << sqlite3_errmsg(db) << endl;
+        sqlite3_finalize(stmt);
+        return false;
+    }
+
+    int rc = sqlite3_step(stmt);
+    bool success = (rc == SQLITE_DONE);
+    if (!success) {
+        cerr << "Failed to execute addShowtime: " << sqlite3_errmsg(db) << " (rc=" << rc << ")" << endl;
+    }
+
     sqlite3_finalize(stmt);
-    
     return success;
 }
 
